@@ -3,7 +3,7 @@ name = "houbpy"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = "==3.10.*"
 dependencies = [
     "bpy",
 ]
@@ -14,4 +14,4 @@ dev = [
 ]
 
 [tool.uv.sources]
-bpy = { path = "E:/Downloads/AlphaCut_test/bpy-3.6.0-cp310-cp310-win_amd64.whl" }
+bpy = { url = "https://download.blender.org/pypi/bpy/bpy-3.6.0-cp310-cp310-win_amd64.whl" }
