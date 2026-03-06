@@ -1,6 +1,7 @@
 import bpy
 import argparse
 import json
+import numpy as np
 
 
 parser = argparse.ArgumentParser()
@@ -33,19 +34,35 @@ def poly_point_indices():
     poly_points = []
     for f in mesh.polygons:
         poly_points.append([v for v in f.vertices])
-    return poly_points
+    poly_points_reverse = [tuple(reversed(point_indices)) for point_indices in poly_points]
+    return poly_points_reverse
 
+poly_point_indices = poly_point_indices()
+
+'''
+def attrib_uv():
+    uv_points_vector = [uv.vector.to_3d().to_tuple() for uv in mesh.uv_layers['UVMap'].uv]
+    uv = list(zip(*[iter(uv_points_vector)]*4))
+    uv_reverse = [tuple(reversed(vecter)) for vecter in uv]
+    uv_array = np.array(uv_reverse)
+    uvw =[float(n) for n in uv_array.ravel()]
+    return uvw
+'''
 
 def attrib_uv():
-    uv_vectors = [uv.vector.to_tuple() for uv in mesh.uv_layers['UVMap'].uv]
-    return uv_vectors
-
+    uv = mesh.uv_layers['UVMap'].uv
+    uvw = []
+    for poly in mesh.polygons:
+        uv_vector = [uv[index].vector.to_3d().to_tuple() for index in poly.loop_indices]
+        uvw.append(tuple(reversed(uv_vector)))
+    uvw = [vector for poly_indices in uvw for point in poly_indices for vector in point]
+    return uvw
 
 
 data = {"objects_name": objects_name,
         "meshes_name": meshes_name,
         "vertices": vertices,
-        "poly_point_indices": poly_point_indices(),
+        "poly_point_indices": poly_point_indices,
         "UV": attrib_uv()
         }
 
