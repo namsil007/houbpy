@@ -1,8 +1,8 @@
 import subprocess
 import json
 
-bpy = r"C:\Users\wh.RENO-STUDIOS\Desktop\PycharmProfect\hou_bpy\dist\test\test.exe"
-blend = r"C:\Users\wh.RENO-STUDIOS\Desktop\test.blend"
+bpy = r"D:\Desktop\study python\houbpy\dist\test\test.exe"
+blend = r"D:\Desktop\test.blend"
 r = subprocess.run([bpy, '-f', blend], capture_output=True, text=True)
 data = json.loads(r.stdout)
 
